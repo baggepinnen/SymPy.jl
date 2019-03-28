@@ -379,13 +379,6 @@ using Base.MathConstants
     @test subs(p,x,2) == 2
     @test subs(p,x,-1) == 0
     @test subs(p,x,0) == 1
-
-    if VERSION < v"0.7.0-" # ifelse changed
-        u = ifelse(Lt(x, 0), "neg", ifelse(Gt(x, 0), "pos", "zero"))
-        @test subs(u,x,-1) == Sym("neg")
-        @test subs(u,x, 0) == Sym("zero")
-        @test subs(u,x, 1) == Sym("pos")
-    end
     p = piecewise((-x, x ≪ 0), (x, x ≧ 0))
 
 
@@ -425,7 +418,7 @@ using Base.MathConstants
               ## sets
     s = FiniteSet("H","T")
     s1 = powerset(s)
-    VERSION >= v"0.4.0" && @test length(collect(convert(Set, s1))) == length(collect(s1.x))
+    @test length(collect(convert(Set, s1))) == length(collect(s1.x))
     a, b = Interval(0,1), Interval(2,3)
     @test is_disjoint(a, b) == true
     @test measure(union(a, b)) == 2
@@ -494,8 +487,8 @@ end
 
     ## test round (Issue #153)
     y = Sym(eps())
-    @test round(y, 5) == 0
-    @test round(y, 16) != 0
+    @test round(y, digits=5) == 0
+    @test round(y, digits=16) != 0
 
     ## lambdify over a matrix #218
     @vars x y

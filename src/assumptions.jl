@@ -193,7 +193,7 @@ end
 
 
 function unitary(M::Array{T,2}) where {T <: SymPy.Sym}
-    vals = SymPy.simplify.(SymPy.simplify.(M*ctranspose(M)) .== one(T))
+    vals = SymPy.simplify.(SymPy.simplify.(M*adjoint(M)) .== one(T))
     no_nothing = 0
     for val in vals
         a = SymPy.ask(zero(val))
@@ -209,8 +209,8 @@ function unitary(M::Array{T,2}) where {T <: SymPy.Sym}
 end
 
 function normal(M::Array{T,2}) where {T <: SymPy.Sym}
-    lhs = ctranspose(M) * M
-    rhs = M * ctranspose(M)
+    lhs = adjoint(M) * M
+    rhs = M * adjoint(M)
     vals = zero.(SymPy.simplify.(lhs - rhs))
     no_nothing = 0
     for val in vals

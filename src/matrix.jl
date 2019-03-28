@@ -91,7 +91,7 @@ for meth in sympy_matrix_methods
     eval(Expr(:export, meth))
 end
 
-VERSION >= v"0.7.0-" && import Base.adjoint
+import Base.adjoint
 
 ## These are matrix methods that need exporting
 matrix_methods = (:LDLsolve,

@@ -83,11 +83,7 @@ using LinearAlgebra
     @test D == inv(P) * M * P
 
     # test SymPy's expm against Julia's expm
-    if VERSION >=v"0.7.0-"
-        @test Float64.(exp(M)) ≈ exp(Float64.(M))
-    else
-        @test Float64.(exp(M)) ≈ expm(Float64.(M))
-    end
+    @test Float64.(exp(M)) ≈ exp(Float64.(M))
     M = [x y; 1 0]
     @test integrate(M, x) == [x^2/2 x*y; x 0]
     @test integrate(M, (x, 0, 2)) == [2 2y; 2 0]
